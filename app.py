@@ -1,30 +1,30 @@
-
 import streamlit as st
-import joblib
+import pickle
 
-# Load trained model and vectorizer
-model = joblib.load('spam_model.pkl')
-vectorizer = joblib.load('vectorizer.pkl')
+# Load the saved model and vectorizer
+with open('spam_model.pkl', 'rb') as f:
+    model = pickle.load(f)
 
-# Streamlit UI
-st.title("📩 Spam Message Classifier")
-st.write("Enter a message below to check whether it's **Spam** or **Not Spam**")
+with open('vectorizer.pkl', 'rb') as f:
+    vectorizer = pickle.load(f)
 
-# Input box
-user_input = st.text_area("Your Message", "")
+st.title("Spam Message Classifier")
+
+user_input = st.text_area("Enter your message:")
 
 if st.button("Predict"):
-    if user_input.strip() == "":
-        st.warning("Please enter a message.")
+    if not user_input.strip():
+        st.warning("Please enter a message!")
     else:
-        # Transform and predict
-        input_vector = vectorizer.transform([user_input])
-        prediction = model.predict(input_vector)
-
+        input_vec = vectorizer.transform([user_input])
+        prediction = model.predict(input_vec)
         if prediction[0] == 1:
             st.error("This is a SPAM message!")
         else:
             st.success("This is NOT a spam message.")
+
+
+
 
 
 
