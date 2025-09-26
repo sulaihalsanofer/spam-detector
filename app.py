@@ -1,4 +1,4 @@
-pip install joblib
+
 import streamlit as st
 import joblib
 
@@ -25,5 +25,6 @@ if st.button("Predict"):
             st.error("This is a SPAM message!")
         else:
             st.success("This is NOT a spam message.")
+
 
 
